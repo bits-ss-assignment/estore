@@ -1,0 +1,68 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="customer">
+      <h2 data-cy="customerDetailsHeading"><span bitsTranslate="estoreApp.customer.detail.title">Customer</span></h2>
+
+      <hr />
+
+      <bits-alert-error></bits-alert-error>
+
+      <bits-alert></bits-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span bitsTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ customer.id }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.firstName">First Name</span></dt>
+        <dd>
+          <span>{{ customer.firstName }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.lastName">Last Name</span></dt>
+        <dd>
+          <span>{{ customer.lastName }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.gender">Gender</span></dt>
+        <dd>
+          <span bitsTranslate="{{ 'estoreApp.Gender.' + customer.gender }}">{{ customer.gender }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.email">Email</span></dt>
+        <dd>
+          <span>{{ customer.email }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.phone">Phone</span></dt>
+        <dd>
+          <span>{{ customer.phone }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.addressLine1">Address Line 1</span></dt>
+        <dd>
+          <span>{{ customer.addressLine1 }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.addressLine2">Address Line 2</span></dt>
+        <dd>
+          <span>{{ customer.addressLine2 }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.city">City</span></dt>
+        <dd>
+          <span>{{ customer.city }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.country">Country</span></dt>
+        <dd>
+          <span>{{ customer.country }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.customer.user">User</span></dt>
+        <dd>
+          <span>{{ customer.user?.login }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span bitsTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/customer', customer.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span bitsTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+<div>
+  <h2 id="page-heading" data-cy="ProductHeading">
+    <span bitsTranslate="estoreApp.product.home.title">Products</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span bitsTranslate="estoreApp.product.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-product"
+        [routerLink]="['/product/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span bitsTranslate="estoreApp.product.home.createLabel"> Create a new Product </span>
+      </button>
+    </div>
+  </h2>
+
+  <bits-alert-error></bits-alert-error>
+
+  <bits-alert></bits-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="products?.length === 0">
+    <span bitsTranslate="estoreApp.product.home.notFound">No products found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="products && products.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr bitsSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" bitsSortBy="id"><span bitsTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" bitsSortBy="name"><span bitsTranslate="estoreApp.product.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" bitsSortBy="description">
+            <span bitsTranslate="estoreApp.product.description">Description</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" bitsSortBy="price"><span bitsTranslate="estoreApp.product.price">Price</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" bitsSortBy="size"><span bitsTranslate="estoreApp.product.size">Size</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" bitsSortBy="image"><span bitsTranslate="estoreApp.product.image">Image</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" bitsSortBy="productCategory.name">
+            <span bitsTranslate="estoreApp.product.productCategory">Product Category</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/product', product.id, 'view']">{{ product.id }}</a>
+          </td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.price }}</td>
+          <td bitsTranslate="{{ 'estoreApp.Size.' + product.size }}">{{ product.size }}</td>
+          <td>
+            <a *ngIf="product.image" (click)="openFile(product.image, product.imageContentType)">
+              <img [src]="'data:' + product.imageContentType + ';base64,' + product.image" style="max-height: 30px" alt="product image" />
+            </a>
+            <span *ngIf="product.image">{{ product.imageContentType }}, {{ byteSize(product.image) }}</span>
+          </td>
+          <td>
+            <div *ngIf="product.productCategory">
+              <a [routerLink]="['/product-category', product.productCategory?.id, 'view']">{{ product.productCategory?.name }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/product', product.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" bitsTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/product', product.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" bitsTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(product)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" bitsTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="products && products.length > 0">
+    <div class="d-flex justify-content-center">
+      <bits-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></bits-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="invoice">
+      <h2 data-cy="invoiceDetailsHeading"><span bitsTranslate="estoreApp.invoiceInvoice.detail.title">Invoice</span></h2>
+
+      <hr />
+
+      <bits-alert-error></bits-alert-error>
+
+      <bits-alert></bits-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span bitsTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ invoice.id }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.invoiceInvoice.code">Code</span></dt>
+        <dd>
+          <span>{{ invoice.code }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.invoiceInvoice.date">Date</span></dt>
+        <dd>
+          <span>{{ invoice.date | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.invoiceInvoice.details">Details</span></dt>
+        <dd>
+          <span>{{ invoice.details }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.invoiceInvoice.status">Status</span></dt>
+        <dd>
+          <span bitsTranslate="{{ 'estoreApp.InvoiceStatus.' + invoice.status }}">{{ invoice.status }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.invoiceInvoice.paymentMethod">Payment Method</span></dt>
+        <dd>
+          <span bitsTranslate="{{ 'estoreApp.PaymentMethod.' + invoice.paymentMethod }}">{{ invoice.paymentMethod }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.invoiceInvoice.paymentDate">Payment Date</span></dt>
+        <dd>
+          <span>{{ invoice.paymentDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.invoiceInvoice.paymentAmount">Payment Amount</span></dt>
+        <dd>
+          <span>{{ invoice.paymentAmount }}</span>
+        </dd>
+        <dt><span bitsTranslate="estoreApp.invoiceInvoice.productOrderId">Product Order Id</span></dt>
+        <dd>
+          <span>{{ invoice.productOrderId }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span bitsTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/invoice', invoice.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span bitsTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
